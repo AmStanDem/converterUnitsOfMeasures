@@ -1,5 +1,6 @@
 
-const lengthTypes={ //a record of every length type with values that they are relative to each other
+const lengthTypes=
+{ //a record of every length type with values that they are relative to each other
     Nm:1, //the smallest unit in the calculator, thus everything else is a COUNT of Nm
     mm:1000, //one micrometre is 1000 nanometres
     Mm:1e6, //one millimetre is 1 million nanometres
@@ -11,32 +12,33 @@ const lengthTypes={ //a record of every length type with values that they are re
     Km:1e12, //one kilometre is 1 trillion nanometres
     Mi:1.609e12, //one mile is 1.609 trillion nanometres
     NM:1.852e12, //one nautical mile is trillion nanometres
-}
+};
 
 
 //1 for the bar on the left, 2 for the bar on the right
-const input1 = document.getElementById("num");
-const inputType1 = document.getElementById("startMeasure");
-const input2 = document.getElementById("result");
-const inputType2 = document.getElementById("endMeasure");
+const inputStartValue = document.getElementById("num");
+const inputStartType = document.getElementById("startMeasure");
+const inputEndValue = document.getElementById("result");
+const inputEndType = document.getElementById("endMeasure");
 
-function handleChange(e){
-    let type1=inputType1.value, type2=inputType2.value
-    if([input1,inputType1,inputType2].includes(e.target||e.path[0])){
-        //left hand side changed by human(so set right side)
-        const n=parseInt(input1.value)
+function handleChange(e)
+{
+    let type1=inputStartType.value, type2=inputEndType.value
+    if([inputStartValue,inputStartType,inputEndType].includes(e.target||e.path[0])){
+        //left-hand side changed by human(so set right side)
+        const n= Math.abs(parseFloat(inputStartValue.value));
         if(isNaN(n)){return null}
-        input2.value=n*(lengthTypes[type1]/lengthTypes[type2])
+        inputEndValue.value=n*(lengthTypes[type1]/lengthTypes[type2]);
     }
     else{
-        //right hand side changed by human(so set left side)
-        const n=parseInt(input2.value)
+        //right-hand side changed by human(so set left side)
+        const n= Math.abs(parseFloat(inputEndValue.value));
         if(isNaN(n)){return null}
-        input1.value=n*(lengthTypes[type2]/lengthTypes[type1])
+        inputStartValue.value=n*(lengthTypes[type2]/lengthTypes[type1]);
     }
 }
 
-input1.addEventListener('change',handleChange)
-input2.addEventListener('change',handleChange)
-inputType1.addEventListener('change',handleChange)
-inputType2.addEventListener('change',handleChange)
+inputStartValue.addEventListener('change',handleChange);
+inputEndValue.addEventListener('change',handleChange);
+inputStartType.addEventListener('change',handleChange);
+inputEndType.addEventListener('change',handleChange);
